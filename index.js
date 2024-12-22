@@ -7,7 +7,7 @@ const port = process.env.PORT || 5000;
 
 
 app.use(cors())
-app.use(express())
+app.use(express.json())
 
 
 
@@ -52,6 +52,14 @@ async function run() {
     app.post('/jobs_application', async(req, res) => {
       const application = req.body;
       const result = await jobsApplicationCollection.insertOne(application)
+      res.send(result)
+    })
+
+    // get some data by email
+    app.get('/job_application', async(req, res)=> {
+      const email = req.query.email;
+      const query = {applicant_email: email}
+      const result = await jobsApplicationCollection.find(query).toArray()
       res.send(result)
     })
 
