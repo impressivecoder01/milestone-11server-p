@@ -30,6 +30,7 @@ async function run() {
 
     // work related apis
     const jobsCollections = client.db('milestone-11(p)').collection('works')
+    const jobsApplicationCollection = client.db('milestone-11(p)').collection('job_application')
 
     app.get('/works' , async(req, res)=> {
         const cursor = jobsCollections.find();
@@ -43,6 +44,14 @@ async function run() {
       const id = req.params.id;
       const query = {_id: new ObjectId(id)}
       const result = await jobsCollections.findOne(query)
+      res.send(result)
+    })
+
+
+    // job application apis
+    app.post('/jobs_application', async(req, res) => {
+      const application = req.body;
+      const result = await jobsApplicationCollection.insertOne(application)
       res.send(result)
     })
 
