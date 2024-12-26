@@ -33,7 +33,12 @@ async function run() {
     const jobsApplicationCollection = client.db('milestone-11(p)').collection('job_application')
 
     app.get('/works' , async(req, res)=> {
-        const cursor = jobsCollections.find();
+      const email = req.query.email;
+      let query = {};
+      if(email){
+        query = {hr_email: email}
+      }
+      const cursor = jobsCollections.find(query)
         const result = await cursor.toArray();
         res.send(result);
     })
