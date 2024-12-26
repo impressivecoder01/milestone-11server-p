@@ -59,11 +59,23 @@ async function run() {
       res.send(result)
     })
 
+    // app.get ('/job-applications/:id') ==> gat a specific job application by id
+    // very very important
+    app.get('/job-applications/jobs/:job_id',async(req, res ) => {
+      const jobId = req.params.job_id;
+      const query = {job_id : jobId}
+      const result = await jobsApplicationCollection.find(query).toArray()
+      res.send(result)
+    })
+
 
     // job application apis
     app.post('/jobs_application', async(req, res) => {
       const application = req.body;
       const result = await jobsApplicationCollection.insertOne(application)
+
+      // not the best way(best way is use aggregate)
+
       res.send(result)
     })
 
